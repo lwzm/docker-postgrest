@@ -1,10 +1,14 @@
 FROM busybox
-RUN wget -O x https://github.com/PostgREST/postgrest/releases/download/v6.0.2/postgrest-v6.0.2-linux-x64-static.tar.xz && \
-    tar xf x && \
-    rm -f x
 
 COPY postgrest.conf ./
+RUN wget -O x https://github.com/PostgREST/postgrest/releases/download/v6.0.2/postgrest-v6.0.2-linux-x64-static.tar.xz && \
+    tar xf x && \
+    rm -f x && \
+    adduser -D postgres
 
+USER postgres
+
+# see https://github.com/PostgREST/postgrest/blob/master/docker/Dockerfile
 ENV PGRST_DB_URI= \
     PGRST_DB_SCHEMA=public \
     PGRST_DB_ANON_ROLE= \
